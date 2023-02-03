@@ -1,6 +1,7 @@
 package org.lessons.java.gestore.eventi;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Evento {
 
@@ -32,10 +33,10 @@ public class Evento {
 	
 	public void validateDate(LocalDate data) throws Exception {
 		
-		if( data.isEqual(LocalDate.now()) || data.isAfter(LocalDate.now())){
+		if( data.isEqual(LocalDate.now()) || data.isAfter(LocalDate.now()) ){
 			this.data = data;
-		}else if(this.data.isBefore(LocalDate.now())) {
-			throw new Exception("la data inserita non è precedente a odierna");
+		}else if(this.data.isBefore(LocalDate.now()) || data.equals("")) {
+			throw new Exception("la data inserita non permette prenotazioni");
 		}
 	}
 	
@@ -69,29 +70,39 @@ public class Evento {
 		return postiPrenotati;
 	}
 	
-	public void prenota() throws Exception {
+	public void prenota(int numeroPostiTotale , int postiPrenotati) throws Exception {
 		
-		if(numeroPostiTotale > postiPrenotati || data.isEqual(LocalDate.now()) || data.isAfter(LocalDate.now())) {
-			this.postiPrenotati++;
-			System.out.println("prenotazione confermata");
-		}else if(numeroPostiTotale == postiPrenotati){
-			throw new Exception("Non ci sono più posti disponibile, mi dispiace");
-		}else if(data.isBefore(LocalDate.now())) {
-			throw new Exception("La data è pregressa alla data odierna");
-		}
+		
+		if (numeroPostiTotale - postiPrenotati >= postiPrenotati) {
+			   postiPrenotati += this.postiPrenotati;
+			   this.postiPrenotati++;
+			   System.out.println("prenotazione confermata");
+			} else {
+			   throw new Exception("Non ci sono abbastanza posti disponibili");
+			}
 	}
 	
+
 	
 //	per accedere ai messaggi .getMessage();
 	public void disdici() throws Exception {
-		if(postiPrenotati > 0 || data.isEqual(LocalDate.now())) {
+		if(postiPrenotati > 0 || this.data.isEqual(LocalDate.now())) {
 			this.postiPrenotati--;
 			System.out.println("prenotazione eliminata");
 		}else if(postiPrenotati == 0) {
 			throw new Exception("Non ci sono prenotazioni");
-		}else if(data.isAfter(LocalDate.now())) {
+		}else if(this.data.isAfter(LocalDate.now())) {
 			throw new Exception("La data è gia passata");
 		}
 	}
+
+	@Override
+	public String toString() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		String dataFormattata = data.format(formatter);
+		return "Titolo: " + titolo + ", Data: " + dataFormattata;
+	}
+	
+	
 
 }
