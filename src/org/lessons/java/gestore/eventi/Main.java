@@ -1,6 +1,8 @@
 package org.lessons.java.gestore.eventi;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
@@ -18,21 +20,28 @@ public class Main {
 				int postiPrenotati = 0;
 				String userChoice ="";
 				int postiDisponibili = 0;
+				String prezzo = "0";
+				String ora = null;
+				
+				
 				
 				Scanner input = new Scanner(System.in);
 				LocalDate dataOdierna = LocalDate.now();
 				
 				Evento newEvento;
+				Concerto newConcerto;
 				
-				System.out.println("Creo un nuovo evento");
-				System.out.println("Titolo:");
-				titolo = input.nextLine();
-				LocalDate dataEvento = null;
+				System.out.println("A che evento vuoi partecipare?");
+				titolo = input.nextLine().toLowerCase().trim();
 				
-				while (dataEvento == null) {
+				LocalDate dataEvento = LocalDate.now();
+				
+				while (dataEvento != null ) {
+					
 					System.out.println("Data? (dd/MM/yyyy)");
 					String dataInput = input.next();
 					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+					
 					try {
 						dataEvento = LocalDate.parse(dataInput, formatter);
 					} catch (DateTimeParseException e) {
@@ -40,15 +49,37 @@ public class Main {
 					}
 				}
 				
+				if(titolo.equals("concerto")) {
+					System.out.println("a che ora è l'evento? hh:mm");
+					ora = input.nextLine();
+					input.nextLine();
+					System.out.println(ora);
+					
+				}
+				
 				System.out.println("Il numero di posti totali per questo evento è..?");
 				numeroPostiTotale = input.nextInt();
 				input.nextLine();
-
+				System.out.println(numeroPostiTotale);
+				
+				if(titolo.equals("concerto")) {
+					System.out.println("il prezzo è di");
+					prezzo = input.nextLine();
+					System.out.println(prezzo);
+				}
 				
 				try {
+					if(titolo.equals("concerto")) {
+						newConcerto = new Concerto(titolo, dataEvento, numeroPostiTotale, postiPrenotati,ora, prezzo );
+						newConcerto.prenota(numeroPostiTotale, postiPrenotati);
+						newConcerto.setTitolo(titolo);
+						System.out.println(titolo);
+						newConcerto.setData(dataEvento);
+				}
 					newEvento = new Evento(titolo, dataEvento, numeroPostiTotale, postiPrenotati);
 					newEvento.prenota(numeroPostiTotale , postiPrenotati);
-					System.out.println(newEvento.toString());
+					
+					
 					while(!userChoice.equals("no")) {
 						System.out.println("Vuole eseguire un'altra prenotazione? Scriva si per continuare, no per chiudere, disdici per disdire");
 						userChoice = input.nextLine().toLowerCase().trim();
@@ -57,6 +88,7 @@ public class Main {
 							newEvento.prenota(numeroPostiTotale , newEvento.getPostiPrenotati());
 							postiDisponibili = numeroPostiTotale - newEvento.getPostiPrenotati();
 							System.out.println(newEvento.toString()  + "posti disponibili" + postiDisponibili);
+							
 
 						}else if(userChoice.equals("no")) {
 							System.out.println("hai deciso di chiudere");
