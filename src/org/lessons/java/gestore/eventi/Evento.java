@@ -8,7 +8,7 @@ public class Evento {
 	private String titolo="";
 	private LocalDate data;
 	private int numeroPostiTotale = 200;
-	private int postiPrenotati = 4;
+	private int postiPrenotati = 5;
 	
 	public Evento(String titolo, LocalDate data, int numeroPostiTotale, int postiPrenotati) throws Exception {
 		super();
@@ -98,10 +98,7 @@ public class Evento {
 
 	@Override
 	public String toString() {
-		return "Evento [titolo=" + titolo + ", data=" + data + ", numeroPostiTotale=" + numeroPostiTotale
-				+ ", postiPrenotati=" + postiPrenotati + ", getTitolo()=" + getTitolo() + ", getData()=" + getData()
-				+ ", getNumeroPostiTotale()=" + getNumeroPostiTotale() + ", getPostiPrenotati()=" + getPostiPrenotati()
-				+ "]";
+		return "Evento [titolo=" + titolo + ", data=" + data;
 	}
 
 //	@Override
