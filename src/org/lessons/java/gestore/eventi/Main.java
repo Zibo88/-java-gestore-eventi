@@ -17,6 +17,7 @@ public class Main {
 				int numeroPostiTotale = 30;
 				int postiPrenotati = 0;
 				String userChoice ="";
+				int postiDisponibili = 0;
 				
 				Scanner input = new Scanner(System.in);
 				LocalDate dataOdierna = LocalDate.now();
@@ -47,19 +48,25 @@ public class Main {
 				try {
 					newEvento = new Evento(titolo, dataEvento, numeroPostiTotale, postiPrenotati);
 					newEvento.prenota(numeroPostiTotale , postiPrenotati);
+					System.out.println(newEvento.toString());
 					while(!userChoice.equals("no")) {
 						System.out.println("Vuole eseguire un'altra prenotazione? Scriva si per continuare, no per chiudere, disdici per disdire");
 						userChoice = input.nextLine().toLowerCase().trim();
 					
 						if(userChoice.equals("si")) {
 							newEvento.prenota(numeroPostiTotale , newEvento.getPostiPrenotati());
-							System.out.println(newEvento.toString());
+							postiDisponibili = numeroPostiTotale - newEvento.getPostiPrenotati();
+							System.out.println(newEvento.toString()  + "posti disponibili" + postiDisponibili);
+
 						}else if(userChoice.equals("no")) {
 							System.out.println("hai deciso di chiudere");
-							System.out.println(newEvento.toString());
+							postiDisponibili = numeroPostiTotale - newEvento.getPostiPrenotati();
+							System.out.println(newEvento.toString() + "posti disponibili" + postiDisponibili);
 						}else if(userChoice.equals("disdici")) {
 							newEvento.disdici(newEvento.getPostiPrenotati(), newEvento.getData() );
-							System.out.println(newEvento.toString());
+							postiDisponibili = numeroPostiTotale - newEvento.getPostiPrenotati();
+							System.out.println(newEvento.toString()  + "posti disponibili" + " " + postiDisponibili);
+							
 						}
 							
 				}
