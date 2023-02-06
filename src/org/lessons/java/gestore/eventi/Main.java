@@ -30,7 +30,7 @@ public class Main {
 				LocalDate dataOdierna = LocalDate.now();
 				
 				Evento newEvento;
-				Concerto newConcerto;
+				Concerto newConcerto = null;
 				
 				System.out.println("A che evento vuoi partecipare?");
 				titolo = input.nextLine().toLowerCase().trim();
@@ -89,13 +89,22 @@ public class Main {
 						if(userChoice.equals("si")) {
 							newEvento.prenota(numeroPostiTotale , newEvento.getPostiPrenotati());
 							postiDisponibili = numeroPostiTotale - newEvento.getPostiPrenotati();
+							if(titolo.equals("concerto") && newConcerto != null) {
+								System.out.println(newConcerto.prezzoFormattato(prezzo));
+							}
 							System.out.println(newEvento.toString()  + "posti disponibili" + postiDisponibili);
+							
 							
 
 						}else if(userChoice.equals("no")) {
 							System.out.println("hai deciso di chiudere");
 							postiDisponibili = numeroPostiTotale - newEvento.getPostiPrenotati();
-							System.out.println(newEvento.toString() + "posti disponibili" + postiDisponibili);
+							if(titolo.equals("concerto") && newConcerto != null) {
+								System.out.println((newConcerto.toString() + newConcerto.prezzoFormattato(prezzo) +" "+ newConcerto.getOra() + " " + newEvento.getData().format(formatter) ));
+							}else {
+								System.out.println(newEvento.toString() + "posti disponibili" + postiDisponibili);
+							}
+							
 						}else if(userChoice.equals("disdici")) {
 							newEvento.disdici(newEvento.getPostiPrenotati(), newEvento.getData() );
 							postiDisponibili = numeroPostiTotale - newEvento.getPostiPrenotati();
