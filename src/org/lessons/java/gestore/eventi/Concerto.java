@@ -33,8 +33,8 @@ public class Concerto extends Evento {
 	}
 	
 	
-	public LocalTime dataFormattata(String orario) {
-		LocalTime orarioFormatatto = LocalTime.parse(orario,formattatore);
+	public LocalTime dataFormattata(String data) {
+		LocalTime orarioFormatatto = LocalTime.parse(data,formattatore);
 		return orarioFormatatto;
 	}
 	
@@ -42,5 +42,13 @@ public class Concerto extends Evento {
 		BigDecimal prezzo = new BigDecimal(prezzoUtente);
 	    return NumberFormat.getCurrencyInstance(Locale.ITALY).format(prezzo);
 	}
+	
+	@Override
+	public String toString() {
+		return "Concerto [ ora=" + ora + ", prezzo=" + prezzo + ", getOra()="
+				+ getOra() + ", getPrezzo()=" + getPrezzo() + "]";
+	}
+	
+	
 	
 }
