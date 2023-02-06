@@ -2,6 +2,7 @@ package org.lessons.java.gestore.eventi;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -21,7 +22,7 @@ public class Main {
 				String userChoice ="";
 				int postiDisponibili = 0;
 				String prezzo = "0";
-				String ora = null;
+				String ora="";
 				
 				
 				
@@ -36,7 +37,7 @@ public class Main {
 				
 				LocalDate dataEvento = LocalDate.now();
 				
-				while (dataEvento != null ) {
+				
 					
 					System.out.println("Data? (dd/MM/yyyy)");
 					String dataInput = input.next();
@@ -47,13 +48,14 @@ public class Main {
 					} catch (DateTimeParseException e) {
 						System.out.println("Data non valida, inserire una data nel formato gg/mm/aaaa");
 					}
-				}
+			
 				
 				if(titolo.equals("concerto")) {
 					System.out.println("a che ora è l'evento? hh:mm");
-					ora = input.nextLine();
-					input.nextLine();
-					System.out.println(ora);
+					ora = input.next();
+					DateTimeFormatter formatterH = DateTimeFormatter.ofPattern("HH:mm").withLocale(Locale.ITALIAN);
+					LocalTime oraFormattata = LocalTime.parse(ora, formatterH);
+					System.out.println(oraFormattata);
 					
 				}
 				
@@ -73,7 +75,7 @@ public class Main {
 						newConcerto = new Concerto(titolo, dataEvento, numeroPostiTotale, postiPrenotati,ora, prezzo );
 						newConcerto.prenota(numeroPostiTotale, postiPrenotati);
 						newConcerto.setTitolo(titolo);
-						System.out.println(titolo);
+						newConcerto.setPrezzo(prezzo);
 						newConcerto.setData(dataEvento);
 				}
 					newEvento = new Evento(titolo, dataEvento, numeroPostiTotale, postiPrenotati);
